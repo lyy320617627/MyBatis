@@ -19,6 +19,10 @@
     <insert id="insertStudent">
         insert into student values(#{id},#{name},#{email},#{age})
     </insert>-->
+    <!--插入操作-->
+    <insert id="insertStudent">
+        insert into student values (#{id},#{name},#{email},#{age});
+    </insert>
 </mapper>
         <!--
           sql映射文件（sql mapper）： 写sql语句的， mybatis会执行这些sql
