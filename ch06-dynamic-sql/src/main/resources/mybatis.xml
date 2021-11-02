@@ -3,6 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <!--指定properties文件的位置，从类路径根开始找文件-->
+    <properties resource="jdbc.properties">
+
+    </properties>
     <settings>
         <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
@@ -21,6 +25,10 @@
         <package name="com.lyy.domain"/>
         <package name="com.lyy.vo"/>
     </typeAliases>
+    <!--配置插件-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor" />
+    </plugins>
     <environments default="mydev">
         <environment id="mydev">
             <!--
@@ -42,14 +50,24 @@
              3）JNDI：java命名和目录服务（windows的注册表）
             -->
             <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/springdb"/>
-                <property name="username" value="root"/>
-                <property name="password" value="123456"/>
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.user}"/>
+                <property name="password" value="${jdbc.passwd}"/>
             </dataSource>
         </environment>
     </environments>
+    <!--sql mapper（sql映射文件）的位置-->
     <mappers>
-        <mapper resource="com/lyy/dao/StudentDao.xml"/>
+        <!--第一种方式：指定多个文件mapper文件-->
+        <!--<mapper resource="com.lyy.dao.OrderDao.xml"/>-->
+<!--        <mapper resource="com/lyy/dao/StudentDao.xml"/>-->
+        <!--第二种方式：使用包名
+         name:xml(mapper文件)所在的包名,这个包中的xml文件一次都能加载给mybatis
+         使用package的要求：
+         1.mapper文件名称需要和接口名称一样，区分大小写的一样
+         2.mapper文件和dao需要在同一目录
+        -->
+        <package name="com.lyy.dao"/>
     </mappers>
 </configuration>

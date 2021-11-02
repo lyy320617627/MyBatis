@@ -1,6 +1,7 @@
 package com.lyy;
 
 
+import com.github.pagehelper.PageHelper;
 import com.lyy.dao.StudentDao;
 import com.lyy.domain.Student;
 import com.lyy.utils.MyBatisUtils;
@@ -71,5 +72,20 @@ public class TestMybatis {
         for (Student stu:students){
             System.out.println("forTwo=="+stu);
         }
+    }
+    @Test
+    public void testSelectAll(){
+        SqlSession sqlSession=MyBatisUtils.getSqlSession();
+        StudentDao dao=sqlSession.getMapper(StudentDao.class);
+        //加入pageHelper的分页静态方法
+        /**
+         * pageNum：是第几页
+         * pageSize：是表示一页中含有多少行数据
+         */
+        PageHelper.startPage(1,3);
+        List<Student> studentList = dao.selectAll();
+        for (Student stu:studentList){
+            System.out.println("学生的信息是："+stu);
+    }
     }
 }
