@@ -1,6 +1,7 @@
 package com.lyy;
 
 import com.lyy.dao.StudentDao;
+import com.lyy.domain.Mystudent;
 import com.lyy.domain.Student;
 import com.lyy.utils.MyBatisUtils;
 import com.lyy.vo.QueryParam;
@@ -76,6 +77,38 @@ public class TestMybatis {
         for(Student stu:studentList){
         System.out.println("学生信息="+stu);
 
+        }
+    }
+    @Test
+    public void testSelectDifforColumn(){
+        SqlSession sqlSession=MyBatisUtils.getSqlSession();
+        StudentDao dao = sqlSession.getMapper(StudentDao.class);
+        List<Mystudent> mystudents = dao.selectDiffcolProperty();
+        for (Mystudent mystudent:mystudents){
+            System.out.println("学生的信息="+mystudent);
+
+        }
+    }
+    @Test
+    public void selectOneLike(){
+        SqlSession sqlSession=MyBatisUtils.getSqlSession();
+        StudentDao dao = sqlSession.getMapper(StudentDao.class);
+        //准备好like的内容
+        String name="%李%";
+        List<Student> lists = dao.selectOneLike(name);
+        for (Student student:lists){
+            System.out.println("查询到的学生信息="+student);
+        }
+    }
+    @Test
+    public void selectOneLikewo(){
+        SqlSession sqlSession=MyBatisUtils.getSqlSession();
+        StudentDao dao = sqlSession.getMapper(StudentDao.class);
+        //准备好like的内容
+        String name="李";
+        List<Student> lists = dao.selectLikeTwo(name);
+        for (Student student:lists){
+            System.out.println("查询到的学生信息="+student);
         }
     }
 }

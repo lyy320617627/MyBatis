@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyy.dao.StudentDao">
+    <sql id="studentSql">
+        select id,name,age,email from student
+    </sql>
+       <!--if-->
+    <select id="selectStudentIf" resultType="com.lyy.domain.Student">
+        select id,name,age email from student where
+<!--     if
+       <if:test="使用/**/参数java对象的属性值作为1判断条件，语法：属性=xxx值"
+       -->
+
+     <if test="name !=null and name !='' ">
+     name =#{name}
+     </if>
+    <if test="age > 0">
+        and age>#{age}
+    </if>
+    </select>
+    <!--
+    where：<where> <if><if>...</where>
+    -->
+    <select id="selectStudentWhere" resultType="com.lyy.domain.Student">
+     <include refid="studentSql"></include>
+    <where>
+        <if test="name !=null and name !='' ">
+            name =#{name}
+        </if>
+        <if test="age > 0">
+            and age>#{age}
+        </if>
+    </where>
+    </select>
+    <!--foreach使用1，List<Integer>
+    collection:表示接口中的方法参数的类型，如果是数组使用array，如果是list使用list
+    item：自定义的，表示数组或结合成员的变量
+    open：循环开始时的字符
+    close：循环结束时的数组
+    separator:集合成员之间的分隔符
+    -->
+    <select id="selectForeachOne" resultType="com.lyy.domain.Student">
+        select * from student where id in
+      <foreach collection="list" item="myid" open="(" close=")" separator=",">
+          #{myid}
+      </foreach>
+    </select>
+    <select id="selectForeachTwo" resultType="com.lyy.domain.Student">
+        select * from student where id in
+   <foreach collection="list" item="stu" open="(" close=")" separator=",">
+       #{stu.id}
+   </foreach>
+    </select>
+</mapper>

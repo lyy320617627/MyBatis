@@ -1,5 +1,6 @@
 package com.lyy.dao;
 
+import com.lyy.domain.Mystudent;
 import com.lyy.domain.Student;
 import com.lyy.vo.QueryParam;
 import com.lyy.vo.ViewStudent;
@@ -28,4 +29,16 @@ public interface StudentDao {
     使用resultMap定义映射关系
      */
      List<Student> selectAllStudents();
+     List<Mystudent> selectDiffcolProperty();
+     /*第一种模糊查询
+     * 在java代码中指定like的内容
+     *
+     * */
+    List<Student> selectOneLike(String name);
+    /*
+    * name就是李值，在mapper中拼接 like "%" 李 "%"
+    *
+    *
+    * */
+    List<Student> selectLikeTwo(String name);
 }

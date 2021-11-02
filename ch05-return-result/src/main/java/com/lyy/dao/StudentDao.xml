@@ -26,6 +26,8 @@
     <select id="selectMapById" resultType="java.util.HashMap">
         select id,name from student where id=#{stuid}
     </select>
+    <!--当属性名和列表不一样
+    第一种方式：resultMap-->
     <!--使用resultMap
     1)先定义一个resultMap
     2）在select标签，使用resultMap来引用1定义的
@@ -34,13 +36,13 @@
     id：自定义名称，表示你定义的这个resultMap
     type：java类型的全限定名称
     -->
-    <resultMap id="studentMap" type="com.lyy.domain.Student">
-        <!--列名和java属性的关系-->
-        <!--主键列：使用id标签
+<!--    <resultMap id="studentMap" type="com.lyy.domain.Student">
+        &lt;!&ndash;列名和java属性的关系&ndash;&gt;
+        &lt;!&ndash;主键列：使用id标签
         column:列名
         property:java类型的属性名
-        -->
-        <!--非主键列，使用result-->
+        &ndash;&gt;
+        &lt;!&ndash;非主键列，使用result&ndash;&gt;
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="email" property="email"/>
@@ -49,5 +51,21 @@
     </resultMap>
     <select id="selectAllStudents" resultType="studentMap">
         select id,name,email,age from student
+    </select>-->
+<!--     /*
+     列名和属性名不一样时：第二种方式
+    resultType的默认原则是，同名的列赋值给同名的属性，使用列别名(java对象的属性名)
+     */-->
+    <select id="selectDiffcolProperty" resultType="com.lyy.domain.Mystudent">
+        select id as stuid,name as stuname,email as stuemail,age as stuage from student
     </select>
+    <!--第一种like，java代码指定like的内容-->
+    <select id="selectOneLike" resultType="com.lyy.domain.Student">
+     select id,name,email,age from student where name like #{name}
+    </select>
+    <!--第二种方式：在mappern文件中拼接like的内容-->
+    <select id="selectLikeTwo" resultType="com.lyy.domain.Student">
+        select id,name,email,age from student where name like "%" #{name} "%"
+    </select>
+
 </mapper>
